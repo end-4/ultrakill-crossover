@@ -1,0 +1,11 @@
+{
+    "name": "Crossover",
+    "author": "end_4",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/end-4/ultrakill-crossover",
+    "description": "Adds stylish cross marks on killed enemies, like in I am your Beast",
+    "dependencies": [
+        "BepInEx-BepInExPack-5.4.2100",
+        "EternalsTeam-PluginConfigurator-1.10.2"
+    ]
+}
