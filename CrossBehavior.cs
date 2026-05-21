@@ -12,19 +12,29 @@ public class CrossBehavior : MonoBehaviour {
     }
 
     // Params
-    public float markLifetime = 0.4f;
+    public bool startMarkImmediately = true;
+    public float markLifetime = 0.5333f;
+    public float scalingDelay = 0.0000f;
     public float scalingDuration = 0.1333f;
     public float startScale = 1f;
     public float endScale = 0.2f;
 
-    public Tuple<float, Color>[] colorSteps = {
-        Tuple.Create(0f, Color.white),
-        Tuple.Create(0.0333f, Color.black),
-        Tuple.Create(0.0667f, Color.white),
-        Tuple.Create(0.1333f, Color.black),
-        Tuple.Create(0.2f, Color.red),
-    };
+    public Tuple<float, Color>[] GetUpdatedColorSteps() {
+        Color backLayerImageColor = backLayerImage.color;
+        Color transparentizedBackLayerImageColor = new Color(backLayerImageColor.r, backLayerImageColor.g, backLayerImageColor.b, 0f);
+        return [
+            Tuple.Create(0.0000f, Color.white),
+            Tuple.Create(0.0333f, Color.black),
+            Tuple.Create(0.0667f, Color.white),
+            Tuple.Create(0.1333f, Color.black),
+            Tuple.Create(0.2000f, backLayerImage.color),
+            Tuple.Create(0.4000f, transparentizedBackLayerImageColor),
+            Tuple.Create(0.4667f, backLayerImage.color),
+            Tuple.Create(0.5333f, transparentizedBackLayerImageColor)
+        ];
+    }
 
+    public Tuple<float, Color>[] colorSteps = [];
 
     // Object info
     public EnemyIdentifier enemy;
@@ -32,6 +42,7 @@ public class CrossBehavior : MonoBehaviour {
     private float enemyHeight;
     private RectTransform rectTransform;
     private Image frontLayerImage;
+    private Image backLayerImage;
 
     // Animation
     private State state = State.Hidden;
@@ -43,11 +54,14 @@ public class CrossBehavior : MonoBehaviour {
     private void Awake() {
         canvasGroup = GetComponent<CanvasGroup>();
         frontLayerImage = transform.Find("DeathCrossFrontLayer").gameObject.GetComponent<Image>();
-        Image backLayerImage = gameObject.GetComponent<Image>();
+        backLayerImage = gameObject.GetComponent<Image>();
         backLayerImage.color = ConfigManager.AccentColor.value;
-        colorSteps[^1] = Tuple.Create(colorSteps[^1].Item1, backLayerImage.color);
+        colorSteps = GetUpdatedColorSteps();
         startScale = ConfigManager.StartScale.value;
         endScale = ConfigManager.EndScale.value;
+        scalingDuration = ConfigManager.ScalingDuration.value;
+        scalingDelay = ConfigManager.ScalingDelay.value;
+        markLifetime = ConfigManager.VisibleDuration.value;
     }
 
     private void Start() {
@@ -99,7 +113,7 @@ public class CrossBehavior : MonoBehaviour {
     }
 
     private void Update() {
-        if (state == State.Hidden && (enemy == null || enemy.health <= 0f)) {
+        if (state == State.Hidden && (startMarkImmediately || enemy == null || enemy.health <= 0f)) {
             state = State.Marking;
             startMarkTime = Time.time;
             canvasGroup.alpha = ConfigManager.CrossMarkOpacity.value;
@@ -109,7 +123,7 @@ public class CrossBehavior : MonoBehaviour {
 
         float elapsedTime = Time.time - startMarkTime;
         UpdateColor(elapsedTime);
-        UpdateScale(elapsedTime / scalingDuration);
+        UpdateScale((elapsedTime - scalingDelay) / scalingDuration);
         UpdateTargetPoint();
 
         if (Time.time - startMarkTime >= markLifetime) {
