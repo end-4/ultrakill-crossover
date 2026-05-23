@@ -18,7 +18,7 @@ public class Plugin : BaseUnityPlugin {
     public static string workingDir = Path.GetDirectoryName(workingPath);
     public const string PluginGUID = "com.github.end-4.crossover";
     public const string PluginName = "Crossover";
-    public const string PluginVersion = "1.0.0";
+    public const string PluginVersion = "1.1.0";
 
     internal static GameObject DeathCrossPrefab;
     internal static GameObject EnemyIndicatorPrefab;
@@ -41,13 +41,17 @@ public class Plugin : BaseUnityPlugin {
 
     private void Awake() {
         Log = Logger;
+
         // Load stuff
         ConfigManager.Initialize();
         LoadObjects();
+
         // Patch stuff
         Harmony harmony = new Harmony("Crossover");
         harmony.PatchAll();
+
         // Done
+        UserHints.Initialize();
         Log.LogInfo("Crossover loaded!");
     }
 }

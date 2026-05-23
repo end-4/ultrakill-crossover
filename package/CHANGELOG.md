@@ -1,6 +1,6 @@
 # Crossover
 
-## 1.0.1
+## 1.1.0
 
 - Added indicator for the last few remaining enemies
 - Made cross durations customizable
