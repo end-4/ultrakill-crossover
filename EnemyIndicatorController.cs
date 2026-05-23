@@ -86,17 +86,23 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
     }
 
     private void UpdateShow() {
-        if (_show || !enemyCountBelowThreshold) return;
+        if (!enemyCountBelowThreshold && !ConfigManager.IsEnemyForceTracked(enemy.enemyType)) {
+            _show = false;
+            if (indicatorObject != null) indicatorObject.SetActive(false);
+            return;
+        }
         // Init the indicator
-        indicatorObject = Object.Instantiate(Plugin.EnemyIndicatorPrefab, Plugin.CrossoverCanvas.transform);
-        rectTransform = indicatorObject.GetComponent<RectTransform>();
-        canvasGroup = indicatorObject.GetComponent<CanvasGroup>();
-        frontLayerImage = indicatorObject.transform.Find("EnemyTrackerFrontLayer").GetComponent<Image>();
-        backLayerImage = indicatorObject.GetComponent<Image>();
-        frontLayerText = indicatorObject.transform.Find("EnemyTrackerFrontLayer/FrontEnemyName")
-            .GetComponent<TMP_Text>();
-        backLayerText = indicatorObject.transform.Find("EnemyName")
-            .GetComponent<TMP_Text>();
+        if (indicatorObject == null) {
+            indicatorObject = Object.Instantiate(Plugin.EnemyIndicatorPrefab, Plugin.CrossoverCanvas.transform);
+            rectTransform = indicatorObject.GetComponent<RectTransform>();
+            canvasGroup = indicatorObject.GetComponent<CanvasGroup>();
+            frontLayerImage = indicatorObject.transform.Find("EnemyTrackerFrontLayer").GetComponent<Image>();
+            backLayerImage = indicatorObject.GetComponent<Image>();
+            frontLayerText = indicatorObject.transform.Find("EnemyTrackerFrontLayer/FrontEnemyName")
+                .GetComponent<TMP_Text>();
+            backLayerText = indicatorObject.transform.Find("EnemyName")
+                .GetComponent<TMP_Text>();
+        }
         // Set props
         SetText(enemyName);
         UpdateAppearance();
@@ -109,11 +115,11 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
         ConfigManager.TrackerColor.postValueChangeEvent += SetAccentColor;
         ConfigManager.TrackerScale.postValueChangeEvent += SetScale;
         ConfigManager.TrackerMarkOpacity.postValueChangeEvent += SetAlpha;
-        EnemyListener.SomeEnemyDied += UpdateShow;
+        EnemyListener.EnemyCountChanged += UpdateShow;
     }
 
     private void UnhookStuff() {
-        EnemyListener.SomeEnemyDied -= UpdateShow;
+        EnemyListener.EnemyCountChanged -= UpdateShow;
         ConfigManager.EnableTrackers.postValueChangeEvent -= SetActive;
         ConfigManager.TrackerShowEnemyNames.postValueChangeEvent -= SetNameActive;
         ConfigManager.TrackerColor.postValueChangeEvent -= SetAccentColor;
@@ -123,12 +129,13 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
 
     private void Awake() {
         clampToScreen = true;
+        HookStuff();
     }
 
     protected override void Start() {
         base.Start();
         enemyName = enemy.enemyType.ToString();
-        HookStuff();
+        UpdateShow();
     }
 
     protected override void Update() {

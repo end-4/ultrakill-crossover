@@ -8,6 +8,7 @@ using UnityEngine;
 namespace Crossover;
 
 [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
+[BepInDependency("com.eternalUnion.pluginConfigurator")]
 public class Plugin : BaseUnityPlugin {
     // Logger
     internal static ManualLogSource? Log;

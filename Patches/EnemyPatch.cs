@@ -14,7 +14,8 @@ internal class EnemyPatch {
         CrossBehavior crossBehavior = cross.AddComponent<CrossBehavior>();
         crossBehavior.SetEnemy(__instance);
         cross.SetActive(true);
-        EnemyListener.NotifyDeath();
+
+        EnemyListener.NotifyChange();
     }
 
     [HarmonyPostfix]
@@ -23,5 +24,7 @@ internal class EnemyPatch {
         if (!ConfigManager.EnableTrackers.value || (__instance.puppet && ConfigManager.TrackerIgnorePuppets.value)) return;
         EnemyIndicatorController controller = __instance.gameObject.AddComponent<EnemyIndicatorController>();
         controller.SetEnemy(__instance);
+
+        EnemyListener.NotifyChange();
     }
 }

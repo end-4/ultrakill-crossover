@@ -1,10 +1,10 @@
 ﻿namespace Crossover;
 
 public static class EnemyListener {
-    public static event OnSomeEnemyDied SomeEnemyDied;
+    public static event OnSomeEnemyDied EnemyCountChanged;
     public delegate void OnSomeEnemyDied();
 
-    internal static void NotifyDeath() {
-        SomeEnemyDied?.Invoke();
+    internal static void NotifyChange() {
+        EnemyCountChanged?.Invoke();
     }
 }

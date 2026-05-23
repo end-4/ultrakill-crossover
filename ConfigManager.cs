@@ -3,6 +3,8 @@ using PluginConfig.API.Fields;
 using PluginConfig.API.Decorators;
 using System.IO;
 using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Crossover;
@@ -29,7 +31,25 @@ public class ConfigManager {
     public static FloatField TrackerScale;
     public static FloatSliderField TrackerMarkOpacity;
 
+    public static Dictionary<string, BoolField> ForceTrackEnemies = new Dictionary<string, BoolField>();
+
     public static void Initialize() {
+    }
+
+    public static bool IsEnemyForceTracked(EnemyType type) {
+        return ForceTrackEnemies[type.ToString()].value;
+    }
+
+    private static void CreateTrackerForcedEnemies() {
+        ConfigPanel forceTrackerPanel = new ConfigPanel(config.rootPanel, "Always show tracker for specific enemies", "forcedTrackEnemies");
+        new ConfigHeader(config.rootPanel, "", 10);
+        new ConfigHeader(forceTrackerPanel, "You can, for example, force Powers and Mindflayers to always have an indicator shown. FUCK POWERS FUCK POWERS FUCK POWERS I HATE POWERS", 12, TextAlignmentOptions.Left);
+        string[] names = Enum.GetNames(typeof(EnemyType));
+        Array.Sort(names);
+        for (int i = 0; i < names.Length; i++) {
+            string name = names[i];
+            ForceTrackEnemies[name] = new BoolField(forceTrackerPanel, name, $"forceTrack{name}", false);
+        }
     }
 
     static ConfigManager() {
@@ -38,7 +58,7 @@ public class ConfigManager {
         if (File.Exists(iconPath)) config.SetIconWithURL(iconPath);
 
         new ConfigHeader(config.rootPanel, "", 10);
-        new ConfigHeader(config.rootPanel, "-- CROSSES --", 22);
+        new ConfigHeader(config.rootPanel, "-- DEATH CROSSES --", 22);
         Enable = new BoolField(config.rootPanel, "Enable death crosses", "enable", true);
         AccentColor = new ColorField(config.rootPanel, "Cross accent color", "accentColor", new Color(219f / 255f, 30f / 255f, 57f / 255f));
 
@@ -46,6 +66,7 @@ public class ConfigManager {
         new ConfigHeader(config.rootPanel, "-- ENEMY TRACKERS --", 22);
         EnableTrackers = new BoolField(config.rootPanel, "Enable trackers", "enableTrackers", false);
         TrackerThreshold = new IntField(config.rootPanel, "Reveal last remaining x enemies", "trackerThreshold", 5);
+        CreateTrackerForcedEnemies();
         TrackerIgnorePuppets = new BoolField(config.rootPanel, "Ignore puppets (blood bois)", "trackerIgnorePuppets", true);
         TrackerShowEnemyNames = new BoolField(config.rootPanel, "Show enemy names", "trackerShowEnemyNames", true);
         TrackerColor = new ColorField(config.rootPanel, "Enemy tracker mark color", "trackerColor", new Color(241f / 255f, 182f / 255f, 19f / 255f));
