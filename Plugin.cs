@@ -20,8 +20,9 @@ public class Plugin : BaseUnityPlugin {
     public const string PluginVersion = "1.0.0";
 
     internal static GameObject DeathCrossPrefab;
-    internal static GameObject DeathCrossCanvasPrefab;
-    internal static GameObject DeathCrossCanvas;
+    internal static GameObject EnemyIndicatorPrefab;
+    internal static GameObject CrossoverCanvasPrefab;
+    internal static GameObject CrossoverCanvas;
     private static readonly string BundlePath = Path.Combine(workingDir, "assets", "crossover.bundle");
 
     private void LoadObjects() {
@@ -30,10 +31,11 @@ public class Plugin : BaseUnityPlugin {
             Log.LogError("Couldn't load asset bundle");
         }
         DeathCrossPrefab = bundle.LoadAsset<GameObject>("DeathCross");
-        DeathCrossCanvasPrefab = bundle.LoadAsset<GameObject>("DeathCrossCanvas");
-        DeathCrossCanvas = Instantiate(DeathCrossCanvasPrefab);
-        DontDestroyOnLoad(DeathCrossCanvas);
-        DeathCrossCanvas.hideFlags = HideFlags.HideAndDontSave; // Idk if this is bad but EladNLG's Healthbars does it
+        EnemyIndicatorPrefab = bundle.LoadAsset<GameObject>("EnemyIndicator");
+        CrossoverCanvasPrefab = bundle.LoadAsset<GameObject>("CrossoverCanvas");
+        CrossoverCanvas = Instantiate(CrossoverCanvasPrefab);
+        DontDestroyOnLoad(CrossoverCanvas);
+        CrossoverCanvas.hideFlags = HideFlags.HideAndDontSave; // Idk if this is bad but EladNLG's Healthbars does it
     }
 
     private void Awake() {

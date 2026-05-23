@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace Crossover;
 
@@ -12,5 +13,13 @@ static class Utils {
         }
 
         return (T)t.GetField(field, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(obj);
+    }
+
+    public static Color Transparentize(Color color) {
+        return new Color(color.r, color.g, color.b, 0);
+    }
+
+    public static Color Opacitize(Color color) {
+        return new Color(color.r, color.g, color.b, 1);
     }
 }
