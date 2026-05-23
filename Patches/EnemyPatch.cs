@@ -20,7 +20,7 @@ internal class EnemyPatch {
     [HarmonyPostfix]
     [HarmonyPatch("Start")]
     static void EnemySpawned(EnemyIdentifier __instance) {
-        if (!ConfigManager.EnableTrackers.value) return;
+        if (!ConfigManager.EnableTrackers.value || (__instance.puppet && ConfigManager.TrackerIgnorePuppets.value)) return;
         EnemyIndicatorController controller = __instance.gameObject.AddComponent<EnemyIndicatorController>();
         controller.SetEnemy(__instance);
     }

@@ -14,6 +14,7 @@ public class ConfigManager {
     public static ColorField AccentColor;
     public static BoolField EnableTrackers;
     public static IntField TrackerThreshold;
+    public static BoolField TrackerIgnorePuppets;
     public static BoolField TrackerShowEnemyNames;
     public static ColorField TrackerColor;
 
@@ -45,6 +46,7 @@ public class ConfigManager {
         new ConfigHeader(config.rootPanel, "-- ENEMY TRACKERS --", 22);
         EnableTrackers = new BoolField(config.rootPanel, "Enable trackers", "enableTrackers", false);
         TrackerThreshold = new IntField(config.rootPanel, "Reveal last remaining x enemies", "trackerThreshold", 5);
+        TrackerIgnorePuppets = new BoolField(config.rootPanel, "Ignore puppets (blood bois)", "trackerIgnorePuppets", true);
         TrackerShowEnemyNames = new BoolField(config.rootPanel, "Show enemy names", "trackerShowEnemyNames", true);
         TrackerColor = new ColorField(config.rootPanel, "Enemy tracker mark color", "trackerColor", new Color(241f / 255f, 182f / 255f, 19f / 255f));
 

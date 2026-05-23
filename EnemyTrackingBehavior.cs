@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Drawing;
+using UnityEngine;
 
 namespace Crossover;
 
@@ -8,6 +9,9 @@ public class EnemyTrackingBehavior: MonoBehaviour {
 
     public EnemyIdentifier enemy;
     protected float enemyHeight;
+
+    public bool clampToScreen = false;
+    public float clampPadding = 0;
 
     public void SetEnemy(EnemyIdentifier enemy) {
         this.enemy = enemy;
@@ -20,14 +24,33 @@ public class EnemyTrackingBehavior: MonoBehaviour {
     }
 
     private void UpdateCanvasPoint() {
-        canvasPoint = MonoSingleton<CameraController>.Instance.cam.WorldToScreenPoint(GetEnemyPosition());
+        Vector3 point = MonoSingleton<CameraController>.Instance.cam.WorldToScreenPoint(GetEnemyPosition());
+        bool isBehindCamera = point.z < 0;
         int width = PostProcessV2_Handler.Instance.GetPrivateField<int>("width");
         int height = PostProcessV2_Handler.Instance.GetPrivateField<int>("height");
 
-        canvasPoint.x *= Screen.width;
-        canvasPoint.y *= Screen.height;
-        canvasPoint.x /= width;
-        canvasPoint.y /= height;
+        point.x *= Screen.width;
+        point.y *= Screen.height;
+        point.x /= width;
+        point.y /= height;
+
+        if (isBehindCamera) {
+            float centerX = width / 2f;
+            float dirX = (width - point.x) - centerX;
+            // Edge case: perfectly centered behind
+            if (Mathf.Approximately(dirX, 0f)) {
+                dirX = -1f;
+            }
+            // Push beyond screen bounds for clamp
+            point.x = centerX + (dirX * 100000f);
+        }
+
+        if (clampToScreen) {
+            point.x = Mathf.Clamp(point.x, clampPadding, width - clampPadding);
+            point.y = Mathf.Clamp(point.y, clampPadding, height - clampPadding);
+        }
+
+        canvasPoint = point;
     }
 
     protected virtual void Start() {

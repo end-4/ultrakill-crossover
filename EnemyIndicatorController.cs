@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.Serialization.Formatters;
 using TMPro;
 using UnityEngine;
@@ -26,7 +27,7 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
     private bool enemyCountBelowThreshold {
         get {
             EnemyTracker tracker = MonoSingleton<EnemyTracker>.Instance;
-            int count = tracker.GetCurrentEnemies().Count - tracker.deathcatcherCount;
+            int count = tracker.GetCurrentEnemies().Where(e => !e.puppet).Count();
             return count <= ConfigManager.TrackerThreshold.value;
         }
     }
@@ -52,6 +53,7 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
     private void SetScale(float scale) {
         if (rectTransform is null) return;
         rectTransform.localScale = new Vector3(scale, scale, scale);
+        clampPadding = Math.Max(rectTransform.rect.width, rectTransform.rect.height);
     }
 
     private void SetAlpha(float alpha, Tuple<float, float> _ = null) {
@@ -112,6 +114,15 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
 
     private void UnhookStuff() {
         EnemyListener.SomeEnemyDied -= UpdateShow;
+        ConfigManager.EnableTrackers.postValueChangeEvent -= SetActive;
+        ConfigManager.TrackerShowEnemyNames.postValueChangeEvent -= SetNameActive;
+        ConfigManager.TrackerColor.postValueChangeEvent -= SetAccentColor;
+        ConfigManager.TrackerScale.postValueChangeEvent -= SetScale;
+        ConfigManager.TrackerMarkOpacity.postValueChangeEvent -= SetAlpha;
+    }
+
+    private void Awake() {
+        clampToScreen = true;
     }
 
     protected override void Start() {
