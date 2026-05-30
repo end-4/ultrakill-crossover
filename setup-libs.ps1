@@ -35,6 +35,8 @@ $ukDlls = @(
     "UnityEngine.dll"
     "UnityEngine.AssetBundleModule.dll"
     "UnityEngine.CoreModule.dll"
+    "UnityEngine.InputLegacyModule.dll"
+    "UnityEngine.InputModule.dll"
     "UnityEngine.UI.dll"
     "UnityEngine.UIModule.dll"
     "UnityEngine.PhysicsModule.dll"

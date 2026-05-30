@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
@@ -24,19 +25,71 @@ public class Plugin : BaseUnityPlugin {
     internal static GameObject EnemyIndicatorPrefab;
     internal static GameObject CrossoverCanvasPrefab;
     internal static GameObject CrossoverCanvas;
+    internal static Dictionary<string, Sprite> EnemyIcons = new();
     private static readonly string BundlePath = Path.Combine(workingDir, "assets", "crossover.bundle");
+
+    internal static string[] IconNames = {
+        "dot_circle",
+        "big_johninator",
+        "cancerous_rodent",
+        "centaur_mortar",
+        "centaur_orb",
+        "centaur_rocket",
+        "cerberus",
+        "deathcatcher",
+        "drone",
+        "ferryman",
+        "filth",
+        "flesh_panopticon",
+        "flesh_prison",
+        "gabriel",
+        "gabriel_second",
+        "gutterman",
+        "guttertank",
+        "hideous_mass",
+        "idol",
+        "malicious_face",
+        "mandalore",
+        "mindflayer",
+        "minos_prime",
+        "minotaur",
+        "mirror_reaper",
+        "power",
+        "providence",
+        "puppet",
+        "schism",
+        "sisyphus",
+        "sisyphus_prime",
+        "soldier",
+        "stalker",
+        "stray",
+        "mannequin",
+        "streetcleaner",
+        "swordsmachine",
+        "turret",
+        "v2",
+        "very_cancerous_rodent",
+        "virtue"
+    };
 
     private void LoadObjects() {
         AssetBundle bundle = AssetBundle.LoadFromFile(BundlePath);
         if (bundle == null) {
             Log.LogError("Couldn't load asset bundle");
         }
+
         DeathCrossPrefab = bundle.LoadAsset<GameObject>("DeathCross");
         EnemyIndicatorPrefab = bundle.LoadAsset<GameObject>("EnemyIndicator");
         CrossoverCanvasPrefab = bundle.LoadAsset<GameObject>("CrossoverCanvas");
         CrossoverCanvas = Instantiate(CrossoverCanvasPrefab);
         DontDestroyOnLoad(CrossoverCanvas);
         CrossoverCanvas.hideFlags = HideFlags.HideAndDontSave; // Idk if this is bad but EladNLG's Healthbars does it
+        // Load icons
+        for (int i = 0; i < IconNames.Length; i++) {
+            string iconName = IconNames[i];
+            Sprite iconSprite = bundle.LoadAsset<Sprite>(iconName);
+            EnemyIcons.Add(iconName, iconSprite);
+        }
     }
 
     private void Awake() {

@@ -4,6 +4,12 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+
+        <!-- Meaningful error messages -->
+        <DebugType>embedded</DebugType>
+        <Deterministic>true</Deterministic>
+        <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))</RepoRoot>
+        <PathMap>$(RepoRoot)=/_/</PathMap>
     </PropertyGroup>
 
     <ItemGroup>
@@ -39,6 +45,12 @@
       </Reference>
       <Reference Include="UnityEngine.CoreModule">
         <HintPath>libs\Managed\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.InputLegacyModule">
+        <HintPath>libs\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.InputModule">
+        <HintPath>libs\Managed\UnityEngine.InputModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.PhysicsModule">
         <HintPath>libs\Managed\UnityEngine.PhysicsModule.dll</HintPath>

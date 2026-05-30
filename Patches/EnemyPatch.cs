@@ -21,8 +21,13 @@ internal class EnemyPatch {
     [HarmonyPostfix]
     [HarmonyPatch("Start")]
     static void EnemySpawned(EnemyIdentifier __instance) {
+        // int instanceId = __instance.GetInstanceID();
+        // Plugin.Log.LogInfo($"EnemyIdentifier Start instance {instanceId}");
         if (!ConfigManager.EnableTrackers.value || (__instance.puppet && ConfigManager.TrackerIgnorePuppets.value)) return;
-        EnemyIndicatorController controller = __instance.gameObject.AddComponent<EnemyIndicatorController>();
+        EnemyIndicatorController controller = __instance.gameObject.GetComponent<EnemyIndicatorController>();
+        if (controller != null) return;
+        controller = __instance.gameObject.AddComponent<EnemyIndicatorController>();
+        // Plugin.Log.LogInfo($"Set enemy for {instanceId}, enemy: {__instance.FullName}");
         controller.SetEnemy(__instance);
 
         EnemyListener.NotifyChange();
