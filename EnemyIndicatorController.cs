@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -171,7 +172,7 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
 
     protected override void Start() {
         base.Start();
-        enemyName = enemy?.enemyType.ToString() ?? "Enemy";
+        enemyName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(enemy?.FullName.ToLower() ?? "Enemy");
         // Plugin.Log.LogInfo($"[+] {enemyName}");
         UpdateShow();
         HookStuff();
