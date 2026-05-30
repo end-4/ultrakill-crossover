@@ -1,5 +1,10 @@
 # Crossover
 
+## 1.1.1
+
+- Use icons specific to each enemy type for enemy trackers
+- Made enemy trackers use nice names
+
 ## 1.1.0
 
 - Added indicator for the last few remaining enemies

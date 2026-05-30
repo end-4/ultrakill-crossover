@@ -19,7 +19,7 @@ public class Plugin : BaseUnityPlugin {
     public static string workingDir = Path.GetDirectoryName(workingPath);
     public const string PluginGUID = "com.github.end-4.crossover";
     public const string PluginName = "Crossover";
-    public const string PluginVersion = "1.1.0";
+    public const string PluginVersion = "1.1.1";
 
     internal static GameObject DeathCrossPrefab;
     internal static GameObject EnemyIndicatorPrefab;

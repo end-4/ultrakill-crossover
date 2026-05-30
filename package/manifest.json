@@ -1,7 +1,7 @@
 {
     "name": "Crossover",
     "author": "end_4",
-    "version_number": "1.1.0",
+    "version_number": "1.1.1",
     "website_url": "https://github.com/end-4/ultrakill-crossover",
     "description": "Adds stylish cross marks on killed enemies, like in I Am Your Beast",
     "dependencies": [
