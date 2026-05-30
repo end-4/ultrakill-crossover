@@ -97,7 +97,7 @@ public class ConfigManager {
         new ConfigHeader(config.rootPanel, "// <color=#f1b613>Enemy trackers</color>", 16, TextAlignmentOptions.Left);
         TrackerScale = new FloatField(config.rootPanel, "Tracker mark scale", "trackerScale", 1f);
         TrackerMarkOpacity = new FloatSliderField(config.rootPanel, "Tracker mark opacity", "trackerMarkOpacity",
-            new Tuple<float, float>(0f, 1f), 1f);
+            new Tuple<float, float>(0f, 1f), 0.7f);
 
         // Internal
         LastVersion = new StringField(config.rootPanel, "Last version", "lastVersion", "0.0.0");
