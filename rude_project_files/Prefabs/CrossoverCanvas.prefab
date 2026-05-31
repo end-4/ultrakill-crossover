@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5551174038256340241}
   - component: {fileID: 7971363535590291876}
   m_Layer: 5
-  m_Name: DeathCrossCanvas
+  m_Name: CrossoverCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
