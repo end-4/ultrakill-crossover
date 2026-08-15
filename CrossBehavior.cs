@@ -51,15 +51,15 @@ public class CrossBehavior : EnemyTrackingBehavior {
     private void Awake() {
         frontLayerImage = transform.Find("DeathCrossFrontLayer").gameObject.GetComponent<Image>();
         backLayerImage = gameObject.GetComponent<Image>();
-        backLayerImage.color = ConfigManager.AccentColor.value;
+        backLayerImage.color = CrossoverConfig.AccentColor.Value;
         colorSteps = GetUpdatedColorSteps();
-        startScale = ConfigManager.StartScale.value;
-        endScale = ConfigManager.EndScale.value;
-        scalingDuration = ConfigManager.ScalingDuration.value;
-        scalingDelay = ConfigManager.ScalingDelay.value;
-        markLifetime = ConfigManager.VisibleDuration.value;
+        startScale = CrossoverConfig.StartScale.Value;
+        endScale = CrossoverConfig.EndScale.Value;
+        scalingDuration = CrossoverConfig.ScalingDuration.Value;
+        scalingDelay = CrossoverConfig.ScalingDelay.Value;
+        markLifetime = CrossoverConfig.VisibleDuration.Value;
         canvasGroup = GetComponent<CanvasGroup>();
-        canvasGroup.alpha = ConfigManager.CrossMarkOpacity.value;
+        canvasGroup.alpha = CrossoverConfig.CrossMarkOpacity.Value;
         if (canvasGroup.alpha < 1) { // Disable shadow if transparent
             backLayerImage.color = Utils.Transparentize(backLayerImage.color);
         }

@@ -24,13 +24,13 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
     private static readonly string DEFAULT_ICON = "dot_circle";
 
     // Enemy info
-    private string enemyName = "Enemy";
+    private string _enemyName = "Enemy";
 
     private bool enemyCountBelowThreshold {
         get {
-            EnemyTracker tracker = MonoSingleton<EnemyTracker>.Instance;
-            int count = tracker.GetCurrentEnemies().Where(e => !e.puppet).Count();
-            return count <= ConfigManager.TrackerThreshold.value;
+            var tracker = MonoSingleton<EnemyTracker>.Instance;
+            int count = tracker?.GetCurrentEnemies().Where(e => !e.puppet).Count() ?? 0;
+            return count <= CrossoverConfig.TrackerThreshold.Value;
         }
     }
 
@@ -60,7 +60,7 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
         clampPadding = Math.Max(rectTransform.rect.width, rectTransform.rect.height);
     }
 
-    private void SetAlpha(float alpha, Tuple<float, float> _ = null) {
+    private void SetAlpha(float alpha) {
         if (canvasGroup == null) return;
         canvasGroup.alpha = alpha;
         if (canvasGroup.alpha < 1) {
@@ -105,22 +105,22 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
         if (Plugin.EnemyIcons.TryGetValue(iconName, out Sprite icon)) {
             frontLayerImage.sprite = icon;
             backLayerImage.sprite = icon;
-            SetAccentColor(ConfigManager.TrackerColor.value);
+            SetAccentColor(CrossoverConfig.TrackerColor.Value);
         }
     }
 
     private void UpdateAppearance() {
         if (indicatorObject == null) return;
-        SetAccentColor(ConfigManager.TrackerColor.value);
-        SetScale(ConfigManager.TrackerScale.value);
-        SetAlpha(ConfigManager.TrackerMarkOpacity.value);
-        SetNameActive(ConfigManager.TrackerShowEnemyNames.value);
-        SetEnemyIcon(ConfigManager.TrackerUseSpecificEnemyIcons.value);
-        indicatorObject.SetActive(ConfigManager.EnableTrackers.value);
+        SetAccentColor(CrossoverConfig.TrackerColor.Value);
+        SetScale(CrossoverConfig.TrackerScale.Value);
+        SetAlpha(CrossoverConfig.TrackerMarkOpacity.Value);
+        SetNameActive(CrossoverConfig.TrackerShowEnemyNames.Value);
+        SetEnemyIcon(CrossoverConfig.TrackerUseSpecificEnemyIcons.Value);
+        indicatorObject.SetActive(CrossoverConfig.EnableTrackers.Value);
     }
 
     private void UpdateShow() {
-        if (!enemyCountBelowThreshold && !ConfigManager.IsEnemyForceTracked(enemy.enemyType)) {
+        if (!enemyCountBelowThreshold && !CrossoverConfig.IsEnemyForceTracked(enemy.enemyType)) {
             _show = false;
             if (indicatorObject != null) indicatorObject.SetActive(false);
             return;
@@ -140,30 +140,30 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
         }
 
         // Set props
-        SetText(enemyName);
+        SetText(_enemyName);
         UpdateAppearance();
         _show = true;
     }
 
     private void HookStuff() {
-        ConfigManager.EnableTrackers.postValueChangeEvent += SetActive;
-        ConfigManager.TrackerUseSpecificEnemyIcons.postValueChangeEvent += SetEnemyIcon;
-        ConfigManager.TrackerShowEnemyNames.postValueChangeEvent += SetNameActive;
-        ConfigManager.TrackerColor.postValueChangeEvent += SetAccentColor;
-        ConfigManager.TrackerScale.postValueChangeEvent += SetScale;
-        ConfigManager.TrackerMarkOpacity.postValueChangeEvent += SetAlpha;
+        CrossoverConfig.EnableTrackers.OnValueChanged += SetActive;
+        CrossoverConfig.TrackerUseSpecificEnemyIcons.OnValueChanged += SetEnemyIcon;
+        CrossoverConfig.TrackerShowEnemyNames.OnValueChanged += SetNameActive;
+        CrossoverConfig.TrackerColor.OnValueChanged += SetAccentColor;
+        CrossoverConfig.TrackerScale.OnValueChanged += SetScale;
+        CrossoverConfig.TrackerMarkOpacity.OnValueChanged += SetAlpha;
         EnemyListener.EnemyCountChanged += UpdateShow;
         enemy.destroyOnDeath.Add(indicatorObject);
     }
 
     private void UnhookStuff() {
         EnemyListener.EnemyCountChanged -= UpdateShow;
-        ConfigManager.EnableTrackers.postValueChangeEvent -= SetActive;
-        ConfigManager.TrackerUseSpecificEnemyIcons.postValueChangeEvent -= SetEnemyIcon;
-        ConfigManager.TrackerShowEnemyNames.postValueChangeEvent -= SetNameActive;
-        ConfigManager.TrackerColor.postValueChangeEvent -= SetAccentColor;
-        ConfigManager.TrackerScale.postValueChangeEvent -= SetScale;
-        ConfigManager.TrackerMarkOpacity.postValueChangeEvent -= SetAlpha;
+        CrossoverConfig.EnableTrackers.OnValueChanged -= SetActive;
+        CrossoverConfig.TrackerUseSpecificEnemyIcons.OnValueChanged -= SetEnemyIcon;
+        CrossoverConfig.TrackerShowEnemyNames.OnValueChanged -= SetNameActive;
+        CrossoverConfig.TrackerColor.OnValueChanged -= SetAccentColor;
+        CrossoverConfig.TrackerScale.OnValueChanged -= SetScale;
+        CrossoverConfig.TrackerMarkOpacity.OnValueChanged -= SetAlpha;
     }
 
     private void Awake() {
@@ -172,7 +172,7 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
 
     protected override void Start() {
         base.Start();
-        enemyName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(enemy?.FullName.ToLower() ?? "Enemy");
+        _enemyName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(enemy?.FullName.ToLower() ?? "Enemy");
         // Plugin.Log.LogInfo($"[+] {enemyName}");
         UpdateShow();
         HookStuff();
@@ -183,7 +183,7 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
         string pos = $"{(enemy?.transform?.position ?? (Vector3.one * -1)).ToString()}";
         string hp = $"{(enemy?.health ?? -1)}";
         string indicatorObjPos = indicatorObject?.transform.position.ToString() ?? "NULL POS";
-        Plugin.Log.LogInfo($"--- Enemy {enemyName} | transform: {tranzform} | pos: {pos} | hp: {hp} | indicatorObject: {indicatorObject} | indicatorObjPos: {indicatorObjPos}");
+        Plugin.Log.LogInfo($"--- Enemy {_enemyName} | transform: {tranzform} | pos: {pos} | hp: {hp} | indicatorObject: {indicatorObject} | indicatorObjPos: {indicatorObjPos}");
     }
 
     protected override void Update() {

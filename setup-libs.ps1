@@ -61,7 +61,14 @@ if (-not (Test-Path $R2ModmanProfilePath)) {
 $r2Dlls = @(
     "BepInEx\core\BepInEx.dll"
     "BepInEx\core\0Harmony.dll"
-    "BepInEx\plugins\EternalsTeam-PluginConfigurator\PluginConfigurator\PluginConfigurator.dll"
+    "BepInEx\plugins\end_4-Thorn\ThornClient.dll"
+    "BepInEx\plugins\end_4-Thorn\ThornClient.xml"
+    "BepInEx\plugins\Thorn\ThornClient.dll"
+    "BepInEx\plugins\Thorn\ThornClient.xml"
+    "BepInEx\plugins\end_4-NukeLib\NukeLib.dll"
+    "BepInEx\plugins\end_4-NukeLib\NukeLib.xml"
+    "BepInEx\plugins\NukeLib\NukeLib.dll"
+    "BepInEx\plugins\NukeLib\NukeLib.xml"
 )
 
 foreach ($dll in $r2Dlls) {
@@ -74,5 +81,5 @@ foreach ($dll in $r2Dlls) {
     }
 }
 
-Write-Host "`nSetup finished. If any errors occurred (e.g. files not found), please specify your paths manually using the -UltrakillPath and -R2ModmanProfilePath parameters."
+Write-Host "\nSetup finished. If any errors occurred (e.g. files not found), please specify your paths manually using the -UltrakillPath and -R2ModmanProfilePath parameters."
 Write-Host "Otherwise, you can now build the mod using make-package.ps1."

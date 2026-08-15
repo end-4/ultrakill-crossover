@@ -1,8 +1,9 @@
 # Crossover
 
-## 1.2.0
+## 2.0.0
 
 - More accurate indicators for enemies that are out of view
+- Migrated settings to Thorn
 
 ## 1.1.1
 

@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Crossover;
 
 [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
-[BepInDependency("com.eternalUnion.pluginConfigurator")]
+[BepInDependency("com.github.end-4.thornClient")]
 public class Plugin : BaseUnityPlugin {
     // Logger
     internal static ManualLogSource? Log;
@@ -19,7 +19,9 @@ public class Plugin : BaseUnityPlugin {
     public static string workingDir = Path.GetDirectoryName(workingPath);
     public const string PluginGUID = "com.github.end-4.crossover";
     public const string PluginName = "Crossover";
-    public const string PluginVersion = "1.1.1";
+    public const string PluginVersion = "2.0.0";
+    public static string PluginIconPath => Path.Combine(workingDir, "icon.png");
+    public static string PluginSymbolicIconPath => Path.Combine(workingDir, "icon_symbolic.png");
 
     internal static GameObject DeathCrossPrefab;
     internal static GameObject EnemyIndicatorPrefab;
@@ -96,7 +98,7 @@ public class Plugin : BaseUnityPlugin {
         Log = Logger;
 
         // Load stuff
-        ConfigManager.Initialize();
+        // CrossoverConfig initialized by Thorn
         LoadObjects();
 
         // Patch stuff

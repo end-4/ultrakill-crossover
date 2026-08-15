@@ -9,7 +9,7 @@ internal class EnemyPatch {
     [HarmonyPostfix]
     [HarmonyPatch("ProcessDeath")]
     static void EnemyDied(EnemyIdentifier __instance) {
-        if (!ConfigManager.Enable.value || __instance.health < ConfigManager.EnemyHealthThreshold.value) return;
+        if (!CrossoverConfig.EnableCrosses.Value || __instance.health < CrossoverConfig.EnemyHealthThreshold.Value) return;
         GameObject cross = Object.Instantiate(Plugin.DeathCrossPrefab, Plugin.CrossoverCanvas.transform);
         CrossBehavior crossBehavior = cross.AddComponent<CrossBehavior>();
         crossBehavior.SetEnemy(__instance);
@@ -23,7 +23,7 @@ internal class EnemyPatch {
     static void EnemySpawned(EnemyIdentifier __instance) {
         // int instanceId = __instance.GetInstanceID();
         // Plugin.Log.LogInfo($"EnemyIdentifier Start instance {instanceId}");
-        if (!ConfigManager.EnableTrackers.value || (__instance.puppet && ConfigManager.TrackerIgnorePuppets.value)) return;
+        if (!CrossoverConfig.EnableTrackers.Value || (__instance.puppet && CrossoverConfig.TrackerIgnorePuppets.Value)) return;
         EnemyIndicatorController controller = __instance.gameObject.GetComponent<EnemyIndicatorController>();
         if (controller != null) return;
         controller = __instance.gameObject.AddComponent<EnemyIndicatorController>();
