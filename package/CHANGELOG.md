@@ -1,5 +1,9 @@
 # Crossover
 
+## 1.2.0
+
+- More accurate indicators for enemies that are out of view
+
 ## 1.1.1
 
 - Use icons specific to each enemy type for enemy trackers

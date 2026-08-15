@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using UnityEngine;
 
 namespace Crossover;
@@ -42,7 +43,7 @@ public class EnemyTrackingBehavior: MonoBehaviour {
                 dirX = -1f;
             }
             // Push beyond screen bounds for clamp
-            point.x = centerX + (dirX * 100000f);
+            point.x = centerX + (dirX / Math.Abs(dirX) * Screen.width / 2);
         }
 
         if (clampToScreen) {
