@@ -51,7 +51,7 @@ public class CrossoverConfig : Module {
     /// <inheritdoc />
     public CrossoverConfig() : base("crossover.config", "Crossover",
         "Configuration for cross marks and enemy indicators",
-        ModuleCategory.Render) {
+        ModuleCategory.Render, hasToggling: false) {
         Instance = this;
 
         // --- DEATH CROSSES ---
