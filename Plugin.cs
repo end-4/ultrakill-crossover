@@ -23,7 +23,7 @@ public class Plugin : BaseUnityPlugin {
     public const string PluginName = "Crossover";
     public const string PluginVersion = "2.0.0";
     public static string PluginIconPath => Path.Combine(workingDir, "icon.png");
-    public static string PluginSymbolicIconPath => Path.Combine(workingDir, "icon_symbolic.png");
+    public static string PluginSymbolicIconPath => Path.Combine(workingDir, "icon_clickgui.png");
 
     internal static GameObject DeathCrossPrefab;
     internal static GameObject EnemyIndicatorPrefab;
