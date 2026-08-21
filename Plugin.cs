@@ -10,6 +10,8 @@ namespace Crossover;
 
 [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
 [BepInDependency("com.github.end-4.thornClient")]
+[BepInDependency("com.github.end-4.notiffy")]
+[BepInDependency("com.github.end-4.nukeLib")]
 public class Plugin : BaseUnityPlugin {
     // Logger
     internal static ManualLogSource? Log;
