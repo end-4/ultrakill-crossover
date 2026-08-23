@@ -6,7 +6,7 @@ Adds crosses at enemy death locations, like in I Am Your Beast
 
 And always-visible indicators for the last few remaining enemies or certain enemy types. Customizable.
 
-<img alt="image" src="https://github.com/user-attachments/assets/cf03be7f-2d84-487e-8df7-1b4663c69041" />
+<img alt="image" src="https://github.com/user-attachments/assets/07cd7e6c-866c-4f8e-95dd-15d803d21a2f" />
 
 
 # Attribution
