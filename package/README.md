@@ -1,6 +1,4 @@
-# Crossover
-
-Adds crosses at enemy death locations, like in I Am Your Beast
+## Death crosses
 
 <img alt="image" src="https://github.com/user-attachments/assets/1985fa41-3950-429d-a100-b355b8594fc5" />
 
