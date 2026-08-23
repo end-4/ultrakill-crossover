@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Notiffy.API;
+using NukeLib.Utils;
 using ThornClient.System;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +13,7 @@ public static class UserHints {
         Version lastVersion = new Version(verString);
         Version currVersion = new Version("2.0.0");
         if (currVersion.CompareTo(lastVersion) == 1) {
-            bool isUpdate = verString == "0.0.0";
+            bool isUpdate = verString != "0.0.0";
             string updateAction = isUpdate ? "updated" : "installed";
             string bodyPrefix = isUpdate
                 ? "<b>2.0.0</b>: Configuration is now in Thorn"
@@ -34,6 +35,6 @@ public static class UserHints {
     public static void Initialize() { }
 
     static UserHints() {
-        SceneManager.sceneLoaded += IssueUpdateNoticeIfNecessary;
+        SceneUtils.SafeSceneLoaded += IssueUpdateNoticeIfNecessary;
     }
 }

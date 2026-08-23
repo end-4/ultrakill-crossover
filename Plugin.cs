@@ -14,7 +14,7 @@ namespace Crossover;
 [BepInDependency("com.github.end-4.nukeLib")]
 public class Plugin : BaseUnityPlugin {
     // Logger
-    internal static ManualLogSource? Log;
+    internal static ManualLogSource Log;
 
     // Plugin config
     public static string workingPath = Assembly.GetExecutingAssembly().Location;
