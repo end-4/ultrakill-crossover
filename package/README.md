@@ -2,9 +2,9 @@
 
 <img alt="image" src="https://github.com/user-attachments/assets/1985fa41-3950-429d-a100-b355b8594fc5" />
 
-1.1.0: Now it also has always-visible indicators for the last few remaining enemies or certain enemy types. Customizable.
+## Enemy indicators
 
-<img alt="image" src="https://github.com/user-attachments/assets/cf03be7f-2d84-487e-8df7-1b4663c69041" />
+<img alt="image" src="https://github.com/user-attachments/assets/07cd7e6c-866c-4f8e-95dd-15d803d21a2f" />
 
 # Attribution
 
