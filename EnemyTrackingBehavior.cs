@@ -56,7 +56,8 @@ public class EnemyTrackingBehavior: MonoBehaviour {
 
     protected virtual void Start() {
         if (enemy == null) return;
-        Collider collider = enemy.GetComponent<Collider>();
+        var collider = enemy.GetComponent<Collider>();
+        if (collider == null) return;
         enemyHeight = (collider.bounds.center - enemy.transform.position).y + collider.bounds.extents.y;
     }
 
