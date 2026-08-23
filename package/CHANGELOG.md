@@ -4,6 +4,7 @@
 
 - More accurate indicators for enemies that are out of view
 - Migrated settings to Thorn
+- FINALLY fixed the lingering enemy icons in P-2 (I hope it works in other places too)
 
 ## 1.1.1
 

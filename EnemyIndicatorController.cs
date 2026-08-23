@@ -15,7 +15,7 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
     // Indicator info
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    internal GameObject indicatorObject;
+    private GameObject? indicatorObject;
     private Image frontLayerImage;
     private Image backLayerImage;
     private TMPro.TMP_Text frontLayerText;
@@ -183,16 +183,21 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
         string pos = $"{(enemy?.transform?.position ?? (Vector3.one * -1)).ToString()}";
         string hp = $"{(enemy?.health ?? -1)}";
         string indicatorObjPos = indicatorObject?.transform.position.ToString() ?? "NULL POS";
-        Plugin.Log.LogInfo($"--- Enemy {_enemyName} | transform: {tranzform} | pos: {pos} | hp: {hp} | indicatorObject: {indicatorObject} | indicatorObjPos: {indicatorObjPos}");
+        Plugin.Log.LogInfo(
+            $"--- Enemy {_enemyName} | transform: {tranzform} | pos: {pos} | hp: {hp} | indicatorObject: {indicatorObject} | indicatorObjPos: {indicatorObjPos}");
+    }
+
+    private void OnDisable() {
+        RemoveIndicatorAndStop();
     }
 
     protected override void Update() {
         // if (Input.GetKeyDown(KeyCode.RightBracket)) {
         //     PrintDebugInfo();
         // }
-        if (enemy == null || enemy.health <= 0f || enemy.transform == null) {
+        if (enemy == null || enemy.dead || enemy.health <= 0f || enemy.transform == null || gameObject == null || !gameObject.activeSelf) {
             RemoveIndicatorAndStop();
-            // Plugin.Log.LogInfo($"ENEMY DIED/NULL: {enemyName}");
+            // Plugin.Log.LogInfo($"ENEMY DIED/NULL: {enemy}");
             return;
         }
 
@@ -202,7 +207,7 @@ public class EnemyIndicatorController : EnemyTrackingBehavior {
         rectTransform.position = canvasPoint;
     }
 
-    private void RemoveIndicatorAndStop() {
+    public void RemoveIndicatorAndStop() {
         if (_cleanedUp) return;
         _cleanedUp = true;
         _show = false;
